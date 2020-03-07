@@ -1,0 +1,104 @@
+:root {
+    --primary-color: #09f;
+    --primary-color-dark: #007bff;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.Header {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.Header .Header-Title {
+    padding: 0;
+    margin: 0;
+    font-weight: 100;
+    text-align: center;
+}
+
+.Header .Header-Logo{
+    height: 30px;
+}
+
+.Searchbar {
+    background-color: #f3f3f3;
+}
+
+.Searchbar .Searchbar-FieldsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field.padding {
+    padding: 10px;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field.marginRight {
+    margin-right: 10px;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field.displayFlex {
+    display: flex;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field.flexFill {
+    flex: 1 1 auto;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field.flexDirectionColumn {
+    flex-direction: column;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field.inlineBlock {
+    display: inline-block;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field label {
+    display: block;
+    color: #666666;
+    font-size: 1rem;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field input,
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field select {
+    font-size: 1.3rem;
+    background-color: #ffffff;
+    border: 1px solid #aaaaaa61;
+    border-radius: 5px;
+    font-weight: 200;
+    padding: 5px;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field select {
+    height: 35px;
+    /* :/ */
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field select option {
+    font-weight: 200;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field button {
+    color: #ffffff;
+    border: 1px solid var(--primary-color);
+    text-align: center;
+    cursor: pointer;
+    padding: .4rem .8rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    font-weight: 200;
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field button,
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field button:active {
+    background-color: var(--primary-color);
+}
+
+.Searchbar .Searchbar-FieldsContainer .Searchbar-Field button:hover {
+    background-color: var(--primary-color-dark);
+}
