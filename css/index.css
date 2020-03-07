@@ -1,6 +1,9 @@
 :root {
-    --primary-color: #09f;
+    --primary-color: #0099ff;
     --primary-color-dark: #007bff;
+    --primary-color-rgb: 0, 153, 255;
+    --primary-color-rgba: 0, 153, 255, .8;
+    --primary-color-offset: #ffffff;
 }
 
 body {
@@ -83,7 +86,7 @@ body {
 }
 
 .Searchbar .Searchbar-FieldsContainer .Searchbar-Field button {
-    color: #ffffff;
+    color: var(--primary-color-offset);
     border: 1px solid var(--primary-color);
     text-align: center;
     cursor: pointer;
@@ -101,4 +104,47 @@ body {
 
 .Searchbar .Searchbar-FieldsContainer .Searchbar-Field button:hover {
     background-color: var(--primary-color-dark);
+}
+
+.ReorderItems{
+    padding: 10px 10px 10px 20px;
+    text-align: right;
+}
+
+.ReorderItems .ReorderItem{
+    padding: 5px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    background-color: rgb(var(--primary-color-rgb));
+    color: var(--primary-color-offset);
+    font-size: .8rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ReorderItems .ReorderItem.noselect {
+/* https://stackoverflow.com/a/4407335 */
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.ReorderItems .ReorderItem:not(:last-child){
+    margin-right: 10px;
+}
+
+.ReorderItems .ReorderItem.ascending{
+    background-color: rgba(var(--primary-color-rgba));
+}
+
+.ReorderItems .ReorderItem.ascending::after{
+    content: " \2191" /*upwards arrow*/
+}
+
+.ReorderItems .ReorderItem.descending::after{
+    content: " \2193" /*downwards arrow*/
 }
