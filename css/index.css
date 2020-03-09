@@ -11,7 +11,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-body.hasPopover{
+body.hasModal{
     overflow: hidden;
 }
 
@@ -199,12 +199,12 @@ hr.divider{
 }
 
 .Movies-Container .Movies .Movie .Movie-Details .Movie-Tags,
-.Popover .Popover-Content .Popover-Main .Popover-Details .Popover-Tags{
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Tags{
     text-align: justify;
 }
 
 .Movies-Container .Movies .Movie .Movie-Details .Movie-Tags .Movie-Tag,
-.Popover .Popover-Content .Popover-Main .Popover-Details .Popover-Tags .Popover-Tag{
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Tags .Modal-Tag{
     display: inline-block;
     padding: .25em .4em;
     font-size: 75%;
@@ -217,8 +217,8 @@ hr.divider{
     background-color: var(--primary-color);
 }
 
-/* .Popover.show .Popover-Backdrop{ */
-body.hasPopover .Popover-Backdrop{
+/* .Modal.show .Modal-Backdrop{ */
+body.hasModal .Modal-Backdrop{
     position: absolute;
     height: 100vh;
     width: 100vw;
@@ -227,7 +227,7 @@ body.hasPopover .Popover-Backdrop{
     z-index: 1;
 }
 
-.Popover{
+.Modal{
     height: 80vh;
     width: 80vw;
     position: absolute;
@@ -235,14 +235,13 @@ body.hasPopover .Popover-Backdrop{
     display: none;
     z-index: 2;
     box-sizing: border-box;
-    background-color: #ff66668f;
 }
 
-.Popover.show{
+.Modal.show{
     display: flex;
 }
 
-.Popover .Popover-Content{
+.Modal .Modal-Content{
     background-color: #ffffff;
     width: 100%;
     position: relative;
@@ -251,26 +250,40 @@ body.hasPopover .Popover-Backdrop{
     box-sizing: border-box;
 }
 
-.Popover .Popover-Content .Popover-Main .Popover-Poster,
-.Popover .Popover-Content .Popover-Main .Popover-Details .Popover-Title{
+.Modal .Modal-Content .Modal-Main .Modal-Poster,
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Title{
     text-align: center;
 }
 
-.Popover .Popover-Content .Popover-Main .Popover-Details .Popover-Title{
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Title{
     font-size: 18px;
     margin: 10px 0;
 }
 
-.Popover .Popover-Content .Popover-Main .Popover-Details .Popover-Description{
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Description{
     text-align: justify;
 }
 
-.Popover .Popover-Content .Popover-Link{
-    color: #007bff;
+.Modal .Modal-Content .Modal-Link{
+    color: var(--primary-color);
     text-decoration: none;
 }
 
-.Popover .Popover-Content .Popover-Link:hover{
-    color: #0056b3;
+.Modal .Modal-Content .Modal-Link:hover{
+    color: var(--primary-color-dark);
     text-decoration: underline;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Ratings{
+    list-style: none;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Ratings .Rating{
+    display: grid;
+    grid-template-columns: 45% 45%;
+    column-gap: 10px;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Ratings .Rating:not(:last-child){
+    margin-bottom: 10px;
 }

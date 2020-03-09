@@ -1,5 +1,5 @@
 async function catcher(fnc) {
-    Promise
+    return Promise
         .resolve(fnc())
         .catch(error => {
             console.error(error)
