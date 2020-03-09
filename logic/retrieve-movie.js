@@ -9,8 +9,11 @@ async function retrieveMovie(id) {
 
     if (response.status === 200) {
         const movie = await response.json()
-        // { Title, Year, Poster, Ratings, Type }
-        return movie || {}
+        
+        if(movie){
+            const { Title, Year, Poster, Ratings, Type, Plot, imdbID } = movie
+            return { Title, Year, Poster, Ratings, Type, Plot, imdbID }
+        }
     }
 
     return {}

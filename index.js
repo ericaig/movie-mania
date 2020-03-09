@@ -21,38 +21,66 @@ class MovieMania {
         return el
     }
 
-    closePopover() {
-        const popover = document.querySelector('.Popover')
-        popover.classList.remove('show')
+    closeModal() {
+        const Modal = document.querySelector('.Modal')
+        Modal.classList.remove('show')
         const body = document.querySelector('body')
-        body.classList.remove('hasPopover')
-        const popoverContent = document.querySelector('.Popover-Content')
-        popoverContent.innerHTML = ''
+        body.classList.remove('hasModal')
+        const ModalContent = document.querySelector('.Modal-Content')
+        ModalContent.innerHTML = ''
     }
 
-    showPopover(){
+    showModal() {
         const body = document.querySelector('body')
-        body.classList.add('hasPopover')
-        const popover = document.querySelector('.Popover')
-        popover.style.top = `${document.documentElement.scrollTop + 50}px`
-        popover.classList.add('show')
+        body.classList.add('hasModal')
+        const Modal = document.querySelector('.Modal')
+        Modal.style.top = `${document.documentElement.scrollTop + 50}px`
+        Modal.classList.add('show')
+
+        const ModalBackdrop = document.querySelector('.Modal-Backdrop')
+        ModalBackdrop.style.top = `${document.documentElement.scrollTop}px`
+    }
+
+    createModalContent({ imdbID, Title, Year, Poster, Ratings, Type, Plot }){
+        let ratingItems = ''
+        Ratings.forEach(({ Source, Value }) => ratingItems += `<li class="Rating">
+                <section class="Ratings-Source">${Source}</section>
+                <section class="Ratings-Score">${Value}</section>
+            </li>` )
+
+        return `
+        <section class="Modal-Content">
+            <section class="Modal-Main">
+                <section class="Modal-Poster">
+                    <img src="${Poster}" alt="${Title}"/>
+                </section>
+                <section class="Modal-Details">
+                    <h1 class="Modal-Title">${Title}</h1>
+                    <hr class="divider" />
+                    <p class="Modal-Description">${Plot}</p>
+                    <h4 class="Ratings-Title">Ratings</h4>
+                    <ul class="Ratings">${ratingItems}</ul>
+                    <section class="Modal-Tags">
+                        <span class="Modal-Tag">${Year}</span>
+                        <span class="Modal-Tag">${Type}</span>
+                    </section>
+                </section>
+            </section>
+            <a class="Modal-Link" title="Opens a new tab" href="https://www.imdb.com/title/${imdbID}/" target="_blank">https://www.imdb.com/title/${imdbID}/</a>
+        </section>
+        `
+    }
+
+    async fetchMovieDetails(id) {
+        return await catcher(async () => await retrieveMovie(id))
+    }
+
+    async handleMovieDetails(id) {
+        this.showModal()
+        const modal = document.querySelector('.Modal')
         
-        const popoverBackdrop = document.querySelector('.Popover-Backdrop')
-        popoverBackdrop.style.top = `${document.documentElement.scrollTop}px`
-    }
-
-    async fetchMovieDetails(id){
-        const result = await catcher(async () => await retrieveMovie(id))
-        console.log(result)
-    }
-
-    handleMovieDetails(id, event) {
-        this.showPopover()
-        // const popoverContent = document.querySelector('.Popover-Content')
-        // popoverContent.innerHTML = id
-
-        this.fetchMovieDetails(id)
-        console.log(id)
+        const movie = await this.fetchMovieDetails(id)
+        modal.innerHTML = this.createModalContent(movie)
     }
 
     outputSearchResult() {
@@ -89,7 +117,7 @@ class MovieMania {
 
             movies.append(movie)
 
-            movie.addEventListener('click', (event) => this.handleMovieDetails(imdbID, event))
+            movie.addEventListener('click', () => this.handleMovieDetails(imdbID))
         }
     }
 
@@ -202,10 +230,8 @@ class MovieMania {
 
         this.handleSearch('spider')
 
-        this.showPopover()
-
-        const popover = document.querySelector('.Popover-Backdrop')
-        popover.addEventListener('click', () => this.closePopover())
+        const Modal = document.querySelector('.Modal-Backdrop')
+        Modal.addEventListener('click', () => this.closeModal())
     }
 }
 
