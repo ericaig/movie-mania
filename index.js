@@ -4,41 +4,93 @@ class MovieMania {
     reorderConfig = { Title: 'desc' }
     results = []
 
-    createNodeElement(tagName, classString, content) {
-        const el = document.createElement(tagName)
+    createAttributeNode(attr, value) {
+        const nodeAttr = document.createAttribute(attr)
+        nodeAttr.value = value
+        return nodeAttr
+    }
 
-        if (typeof classString !== "undefined") {
-            const elClass = document.createAttribute("class")
-            elClass.value = classString
-            el.setAttributeNode(elClass)
-        }
+    createNodeElement(tagName, classString, content) {
+        const { createAttributeNode } = this
+
+        const el = document.createElement(tagName)
+        if (typeof classString !== "undefined") el.setAttributeNode(createAttributeNode('class', classString))
 
         if (typeof content !== "undefined") el.innerHTML = content
 
         return el
     }
 
-    outputSearchResult() {
-        const { results, createNodeElement } = this
-        const resultsUl = document.querySelector('.Results')
+    closePopover() {
+        const popover = document.querySelector('.Popover')
+        popover.classList.remove('show')
+        const body = document.querySelector('body')
+        body.classList.remove('hasPopover')
+        const popoverContent = document.querySelector('.Popover-Content')
+        popoverContent.innerHTML = ''
+    }
 
-        if (!results.length) {
+    showPopover(){
+        const body = document.querySelector('body')
+        body.classList.add('hasPopover')
+        const popover = document.querySelector('.Popover')
+        popover.style.top = `${document.documentElement.scrollTop + 50}px`
+        popover.classList.add('show')
+        
+        const popoverBackdrop = document.querySelector('.Popover-Backdrop')
+        popoverBackdrop.style.top = `${document.documentElement.scrollTop}px`
+    }
+
+    async fetchMovieDetails(id){
+        const result = await catcher(async () => await retrieveMovie(id))
+        console.log(result)
+    }
+
+    handleMovieDetails(id, event) {
+        this.showPopover()
+        // const popoverContent = document.querySelector('.Popover-Content')
+        // popoverContent.innerHTML = id
+
+        this.fetchMovieDetails(id)
+        console.log(id)
+    }
+
+    outputSearchResult() {
+        const movies = document.querySelector('.Movies')
+
+        if (!this.results.length) {
             const query = document.querySelector('.Searchbar-Form input[name=query]').value
-            resultsUl.innerHTML = `No result for "${query}"`
+            movies.innerHTML = `No result for "${query}"`
             return
         }
 
-        resultsUl.innerHTML = ''
+        movies.innerHTML = ''
 
-        results.forEach(({ Title, Poster, Year, imdbID, Type }) => {
-            const poster = createNodeElement('img')
+        // self.results.forEach(({ Title, Poster, Year, imdbID, Type }) => {
+        for (const result of this.results) {
+            const { Title, Poster, Year, imdbID, Type } = result
+            const poster = this.createNodeElement('img', 'Movie-Poster')
+            poster.setAttributeNode(this.createAttributeNode('alt', Title))
             poster.src = Poster
 
-            const item = createNodeElement('li', 'search__result--item', `${Title} - ${Year}`)
-            item.append(poster)
+            const movieDetails = this.createNodeElement('section', 'Movie-Details')
+            const movieTitle = this.createNodeElement('h1', 'Movie-Title', Title)
+            const hrDivider = this.createNodeElement('hr', 'divider')
 
-            resultsUl.append(item)
-        })
+            const tags = this.createNodeElement('section', 'Movie-Tags')
+            tags.append(this.createNodeElement('span', 'Movie-Tag', Year), ' ')
+            tags.append(this.createNodeElement('span', 'Movie-Tag', Type.toUpperCase()))
+
+            movieDetails.append(movieTitle, hrDivider, tags)
+
+
+            const movie = this.createNodeElement('li', 'Movie')
+            movie.append(poster, movieDetails)
+
+            movies.append(movie)
+
+            movie.addEventListener('click', (event) => this.handleMovieDetails(imdbID, event))
+        }
     }
 
     reorderAndOutputResultsToUI() {
@@ -67,7 +119,24 @@ class MovieMania {
         this.outputSearchResult()
     }
 
-    handleSearch() {
+    handleSearch(query, type, year) {
+        if (!this.searchRequestActivated) {
+            this.searchRequestActivated = true
+
+                ; (async () => {
+                    await catcher(async () => {
+                        this.results = await searchMovies(query, type, year)
+                        this.reorderAndOutputResultsToUI()
+                    })
+
+                    this.searchRequestActivated = false
+                })()
+        } else {
+            console.log('Please wait, searching for results for ' + query)
+        }
+    }
+
+    handleFormSubmitSearch() {
         const form = document.querySelector('.Searchbar .Searchbar-Form')
 
         form.addEventListener('submit', event => {
@@ -75,26 +144,13 @@ class MovieMania {
 
             const {
                 target: {
-                    query: { value: _query },
-                    type: { value: _type },
-                    year: { value: _year },
+                    query: { value: query },
+                    type: { value: type },
+                    year: { value: year },
                 }
             } = event
 
-            if (!this.searchRequestActivated) {
-                this.searchRequestActivated = true
-
-                    ; (async () => {
-                        await catcher(async () => {
-                            this.results = await searchMovies(_query, _type, _year)
-                            this.reorderAndOutputResultsToUI()
-                        })
-
-                        this.searchRequestActivated = false
-                    })()
-            } else {
-                console.log('Please wait, searching for results for ' + _query)
-            }
+            this.handleSearch(query, type, year)
         })
     }
 
@@ -140,9 +196,16 @@ class MovieMania {
     }
 
     init() {
-        this.handleSearch()
+        this.handleFormSubmitSearch()
         this.handleReorderItemClick()
         this.renderReorderElementsIcons()
+
+        this.handleSearch('spider')
+
+        this.showPopover()
+
+        const popover = document.querySelector('.Popover-Backdrop')
+        popover.addEventListener('click', () => this.closePopover())
     }
 }
 
