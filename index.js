@@ -71,16 +71,16 @@ class MovieMania {
         `
     }
 
-    async fetchMovieDetails(id) {
-        return await catcher(async () => await retrieveMovie(id))
-    }
+    // async fetchMovieDetails(id) {
+    //     return await catcher(async () => await retrieveMovie(id))
+    // }
 
     async handleMovieDetails(id) {
-        this.showModal()
         const modal = document.querySelector('.Modal')
         
-        const movie = await this.fetchMovieDetails(id)
-        modal.innerHTML = this.createModalContent(movie)
+        const movie = await catcher(async () => await retrieveMovie(id))
+        modal.innerHTML = movie ? this.createModalContent(movie) : 'Movie not found'
+        this.showModal()
     }
 
     outputSearchResult() {
