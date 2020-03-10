@@ -1,6 +1,9 @@
 :root {
-    --primary-color: #09f;
+    --primary-color: #0099ff;
     --primary-color-dark: #007bff;
+    --primary-color-rgb: 0, 153, 255;
+    --primary-color-rgba: 0, 153, 255, .8;
+    --primary-color-offset: #ffffff;
 }
 
 body {
@@ -8,9 +11,20 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+body.hasModal{
+    overflow: hidden;
+}
+
+hr.divider{
+    border: 0;
+    height: 3px;
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 30%, rgba(0,153,255,1) 100%);
+}
+
 .Header {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .Header .Header-Title {
@@ -74,8 +88,7 @@ body {
 }
 
 .Searchbar .Searchbar-FieldsContainer .Searchbar-Field select {
-    height: 35px;
-    /* :/ */
+    height: 35px; /* :( */
 }
 
 .Searchbar .Searchbar-FieldsContainer .Searchbar-Field select option {
@@ -83,7 +96,7 @@ body {
 }
 
 .Searchbar .Searchbar-FieldsContainer .Searchbar-Field button {
-    color: #ffffff;
+    color: var(--primary-color-offset);
     border: 1px solid var(--primary-color);
     text-align: center;
     cursor: pointer;
@@ -101,4 +114,208 @@ body {
 
 .Searchbar .Searchbar-FieldsContainer .Searchbar-Field button:hover {
     background-color: var(--primary-color-dark);
+}
+
+.ReorderItems{
+    padding: 10px 10px 10px 20px;
+    text-align: right;
+}
+
+.ReorderItems .ReorderItem{
+    padding: 5px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 10px;
+    background-color: rgb(var(--primary-color-rgb));
+    color: var(--primary-color-offset);
+    font-size: .8rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ReorderItems .ReorderItem.noselect {
+/* https://stackoverflow.com/a/4407335 */
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.ReorderItems .ReorderItem:not(:last-child){
+    margin-right: 10px;
+}
+
+.ReorderItems .ReorderItem.ascending{
+    background-color: rgba(var(--primary-color-rgba));
+}
+
+.ReorderItems .ReorderItem.ascending::after{
+    content: " \2191" /*upwards arrow*/
+}
+
+.ReorderItems .ReorderItem.descending::after{
+    content: " \2193" /*downwards arrow*/
+}
+
+.Movies-Container ul.Movies{
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: 47.5% 47.5%;
+    column-gap: 5%;
+    row-gap: 10px;
+}
+
+.Movies-Container .Movies .Movie {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: auto;
+    margin: auto;
+}
+
+.Movies-Container .Movies .Movie .Movie-Poster{
+    width: 100%;
+}
+
+.Movies-Container .Movies .Movie .Movie-Details{
+    padding: 10px;
+}
+
+.Movies-Container .Movies .Movie .Movie-Details .Movie-Title{
+    /* padding: 10px; */
+    margin: 0;
+    font-weight: 700;
+    text-align: center;
+}
+
+.Movies-Container .Movies .Movie .Movie-Details .Movie-Description{
+    text-align: justify;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #424242;
+    display: none;
+}
+
+.Movies-Container .Movies .Movie .Movie-Details .Movie-Tags,
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Tags{
+    text-align: justify;
+}
+
+.Movies-Container .Movies .Movie .Movie-Details .Movie-Tags .Movie-Tag,
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Tags .Modal-Tag{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    color: #fff;
+    background-color: var(--primary-color);
+}
+
+/* .Modal.show .Modal-Backdrop{ */
+body.hasModal .Modal-Backdrop{
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: transparent;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 1;
+}
+
+.Modal{
+    height: 80vh;
+    width: 80vw;
+    position: absolute;
+    left: 10vw;
+    display: none;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+.Modal.show{
+    display: flex;
+}
+
+.Modal .Modal-Content{
+    background-color: #ffffff;
+    width: 100%;
+    position: relative;
+    overflow-y: scroll;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* .Modal .Modal-Content .Modal-Main .Modal-Poster img{
+    width: 100%;
+} */
+
+.Modal .Modal-Content .Modal-Main .Modal-Poster,
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Title{
+    text-align: center;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Title{
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Modal-Description{
+    text-align: justify;
+}
+
+.Modal .Modal-Content .Modal-Link{
+    margin-top: 30px;
+}
+
+.Modal .Modal-Content .Modal-Link a{
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.Modal .Modal-Content .Modal-Link a:hover{
+    color: var(--primary-color-dark);
+    text-decoration: underline;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Ratings{
+    list-style: none;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Ratings .Rating{
+    display: grid;
+    grid-template-columns: 45% 45%;
+    column-gap: 10px;
+}
+
+.Modal .Modal-Content .Modal-Main .Modal-Details .Ratings .Rating:not(:last-child){
+    margin-bottom: 10px;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .Movies-Container ul.Movies{
+        grid-template-columns: auto auto auto;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .Modal{
+        /* height: auto;     */
+    }
+
+    .Movies-Container ul.Movies{
+        grid-template-columns: auto auto auto auto;
+    }
+
+    .Modal .Modal-Content .Modal-Main{
+        display: grid;
+        grid-template-columns: auto auto;
+        column-gap: 2%;
+    }
 }

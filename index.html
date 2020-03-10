@@ -8,12 +8,16 @@
     <script type="text/javascript" src="./utils/validate.js"></script>
     <script type="text/javascript" src="./api.js"></script>
     <script type="text/javascript" src="./logic/search-movies.js"></script>
+    <script type="text/javascript" src="./logic/retrieve-movie.js"></script>
     <script type="text/javascript" src="./index.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/index.css">
     <title>Movie Mania</title>
 </head>
 
 <body>
+    <section class="Modal-Backdrop"></section>
+    <section class="Modal">Loading</section>
+
     <header class="Header">
         <h1 class="Header-Title">
             Movie Mania
@@ -26,7 +30,7 @@
             <section class="Searchbar-FieldsContainer">
                 <section class="Searchbar-Field displayFlex flexDirectionColumn padding">
                     <label for="query">Title</label>
-                    <input type="text" id="query" name="query" value="spider" maxlength="150" />
+                    <input type="text" id="query" name="query" value="" maxlength="150" />
                 </section>
 
                 <section class="Searchbar-Field displayFlex padding">
@@ -53,8 +57,18 @@
             </section>
         </form>
     </section>
-    <section>
-        <ul class="results"></ul>
+
+    <section class="ReorderItems">
+        <span class="ReorderItem noselect" data-reorder-opt="Title">
+            Title
+        </span>
+        <span class="ReorderItem noselect" data-reorder-opt="Year">
+            Year
+        </span>
+    </section>
+
+    <section class="Movies-Container">
+        <ul class="Movies"></ul>
     </section>
 </body>
 

@@ -1,7 +1,7 @@
 async function catcher(fnc) {
-    Promise
+    return Promise
         .resolve(fnc())
-        .catch(({ message }) => {
-            console.error(message)
+        .catch(error => {
+            alert(error.message)
         })
 }
