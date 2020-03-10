@@ -1,4 +1,4 @@
-# [Movie Mania](http://google.com)
+# [Movie Mania](http://movie-mania.surge.sh/)
 By Bamidele Aighewi (aka Eric Aig)
 
 Technical test
