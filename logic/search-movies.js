@@ -1,9 +1,12 @@
 async function searchMovies(query, type = '', year = '') {
     validate.string(query, 'search query')
     validate.minLength(query, 'query', 1)
+    validate.string(type, 'type', false)
+    validate.string(year, 'year', false)
+
     if (type.trim()) validate.movieType(type)
     if (year.trim()){
-        validate.number(year, 'year')
+        validate.number(year, 'year') // let's check if the 'string' constains a valid number
         // validate.maxDigits(year, 'year', 4)
     }
 
