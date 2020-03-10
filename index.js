@@ -64,6 +64,13 @@ class MovieMania {
 
         const ModalBackdrop = document.querySelector('.Modal-Backdrop')
         ModalBackdrop.style.top = `${document.documentElement.scrollTop}px`
+
+        
+        const closeBtn = document.querySelector('.modal__close')
+        closeBtn.addEventListener('click', (event) => {
+            event.preventDefault()
+            this.closeModal()
+        })
     }
 
     /**
@@ -103,9 +110,14 @@ class MovieMania {
                         <span class="Modal-Tag">${Year}</span>
                         <span class="Modal-Tag">${Type}</span>
                     </section>
+                    <div class="Modal-Link">
+                        <a title="Opens a new tab" href="https://www.imdb.com/title/${imdbID}/" target="_blank">https://www.imdb.com/title/${imdbID}/</a>
+                    </div>
+                    <div class="Modal-Link">
+                        <a class="modal__close" href="/">Close</a>
+                    </div>
                 </section>
             </section>
-            <a class="Modal-Link" title="Opens a new tab" href="https://www.imdb.com/title/${imdbID}/" target="_blank">https://www.imdb.com/title/${imdbID}/</a>
         </section>
         `
     }

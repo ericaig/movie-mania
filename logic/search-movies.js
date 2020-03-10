@@ -22,7 +22,7 @@ async function searchMovies(query, type = '', year = '') {
     const movieTypes = ['movie', 'series', 'episode']
 
     if (type.trim()) apiURL = `${apiURL}&type=${movieTypes[type - 1]}`
-    if (year.trim()) apiURL = `${apiURL}&year=${year}`
+    if (year.trim()) apiURL = `${apiURL}&y=${year}`
 
     const response = await fetch(apiURL)
 
