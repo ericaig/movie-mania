@@ -1,3 +1,11 @@
+/**
+ * Function used to search for vehicles
+ * @param {string} query Query string for search for movies
+ * @param {string} [type=''] Optional. To filter search results between [Movies, Series or Episodes]
+ * @param {string} [year=''] Optional. To retrieve movies with production date of a specific year
+ * @returns {(Array<Object>|Array<>)} It returns an array of Objects if movies found or an empty array if not
+ */
+
 async function searchMovies(query, type = '', year = '') {
     validate.string(query, 'search query')
     validate.minLength(query, 'query', 1)

@@ -1,3 +1,9 @@
+/**
+ * A Function used to retrieve a specific movie informations 
+ * @param {string} id - ID used to retrieve a specific movie
+ * @returns {(Object | undefined)} Returns an Object if it successfully retrieves a movie with a valid id else undefined
+ */
+
 async function retrieveMovie(id) {
     validate.string(id, 'movieId')
 

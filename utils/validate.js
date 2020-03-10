@@ -13,7 +13,4 @@ const validate = {
     number(target, name){
         if (!/^\d+$/.test(target)) throw new TypeError(`${name} ${target} is not a valid number`)
     },
-    // maxDigits(target, name, max){
-    //     if (!/^\d{max}$/.test(target)) throw new RangeError(`${name} ${target} must have maximum digits of ${max}`)
-    // }
 }
