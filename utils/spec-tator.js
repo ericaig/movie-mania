@@ -2,20 +2,27 @@ function assert(assertion, message) {
     if (!assertion) throw new Error('Assertion failed: ' + message);
 }
 
+function addToUI(message){
+    const ul = document.getElementById('spec-result')
+    const li = document.createElement('li')
+    li.innerHTML = message
+    ul.append(li)
+}
+
 function it(should, test) {
     try {
         test();
 
-        console.log('%c' + should + ' √', 'color: green;');
+        addToUI(`<span style="color: green">${should} √</span>`);
     } catch (error) {
-        console.error(should + '\n', error);
+        console.log(should + '\n', error);
     }
 }
 
 function describe(description, tests) {
     'use strict';
 
-    console.log('%c' + description, 'color: blue;');
+    addToUI(`<span style="color: blue">${description}</span>`);
 
     tests();
 }

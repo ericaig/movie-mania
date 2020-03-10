@@ -1,17 +1,32 @@
-
-
+/** Class to perform movies search queries */
 class MovieMania {
     searchRequestActivated = false
+    
     // PS: for now, reordering only supports a single option at a time 
     reorderConfig = { Title: 'desc' }
     results = []
 
+    /**
+     * @function 
+     * Helps to create a node attribute which can be latter applied on a DOM element
+     * @param {string} attr Attribute of an element to create (e.g class, id, name, data, data-type,...)
+     * @param {string} value Value of the newly created attribute
+     * @returns {Attr} The newly created node attribute
+     */
     createAttributeNode(attr, value) {
         const nodeAttr = document.createAttribute(attr)
         nodeAttr.value = value
         return nodeAttr
     }
 
+    /**
+     * @function
+     * Creates a new HTML Element
+     * @param {string} tagName Name of the element to create
+     * @param {string} classString Classes to assign to the newly created element. No class is assigned if it's undefined
+     * @param {string} content Content of the newly created element. Will be empty if it's undefined
+     * @returns {HTMLElement} The newly created HTML Element
+     */
     createNodeElement(tagName, classString, content) {
         const { createAttributeNode } = this
 
@@ -23,6 +38,10 @@ class MovieMania {
         return el
     }
 
+    /**
+     * @function
+     * Closes modal used for viewing movies details
+     */
     closeModal() {
         const Modal = document.querySelector('.Modal')
         Modal.classList.remove('show')
@@ -32,6 +51,10 @@ class MovieMania {
         ModalContent.innerHTML = ''
     }
 
+    /**
+     * @function
+     * Opens modal used for viewing movies details
+     */
     showModal() {
         const body = document.querySelector('body')
         body.classList.add('hasModal')
@@ -43,6 +66,20 @@ class MovieMania {
         ModalBackdrop.style.top = `${document.documentElement.scrollTop}px`
     }
 
+    /**
+     * @function
+     * Generates the content of 'Movie Modal'
+     * @param {object} movie Object containing a movie's information
+     * @param {string} movie.imdbID Movie's ID
+     * @param {string} movie.Title Movie's title
+     * @param {string} movie.Year Movie's production year
+     * @param {string} movie.Poster Movie's poster image
+     * @param {[{Source: string, Value: string}] } movie.Ratings Movie's ratings
+     * @param {array} movie.Ratings Movie's ratings
+     * @param {string} movie.Type Movie's type
+     * @param {string} movie.Plot A brief summary of what the movie is about
+     * @returns {string} Modal content
+     */
     createModalContent({ imdbID, Title, Year, Poster, Ratings, Type, Plot }){
         let ratingItems = ''
         Ratings.forEach(({ Source, Value }) => ratingItems += `<li class="Rating">
@@ -73,10 +110,11 @@ class MovieMania {
         `
     }
 
-    // async fetchMovieDetails(id) {
-    //     return await catcher(async () => await retrieveMovie(id))
-    // }
-
+    /**
+     * Fetches a movie's details using the id param and calls the ```createModalContent()``` function when done
+     * @param {string} id Required to fetch movie's details
+     * @returns {Promise<void>}
+     */
     async handleMovieDetails(id) {
         const modal = document.querySelector('.Modal')
         
@@ -85,6 +123,10 @@ class MovieMania {
         this.showModal()
     }
 
+    /**
+     * @function
+     * Appends node elements to DOM after looping through movie search results
+     */
     outputSearchResult() {
         const movies = document.querySelector('.Movies')
 
@@ -123,6 +165,10 @@ class MovieMania {
         }
     }
 
+    /**
+     * @function
+     * Reorders search movies in ascending or descending order depending on the current value of ```reorderConfig```. Calls ```outputSearchResult()``` when done
+     */
     reorderAndOutputResultsToUI() {
         const { results, reorderConfig } = this
         // there should only be 1 key in reorderConfig, so let's get the first one
@@ -149,6 +195,14 @@ class MovieMania {
         this.outputSearchResult()
     }
 
+
+    /**
+     * @function
+     * Executes ```searchMovies()``` logic to return Movies array
+     * @param {string} query Search param required to execute search API
+     * @param {string} type Type of movie
+     * @param {string} year Movie's production year
+     */
     handleSearch(query, type, year) {
         if (!this.searchRequestActivated) {
             this.searchRequestActivated = true
@@ -166,6 +220,10 @@ class MovieMania {
         }
     }
 
+    /**
+     * @function
+     * Assigns ```submit``` event listener to searchbar form and calls ```handleSearch()``` with form values
+     */
     handleFormSubmitSearch() {
         const form = document.querySelector('.Searchbar .Searchbar-Form')
 
@@ -184,6 +242,11 @@ class MovieMania {
         })
     }
 
+    /**
+     * Toggles the current reorder option and changes from descending to ascending and vice versa. It also assure that we have just a single reorder option in the ```reorderConfig``` variable as reordering only supports a single option at a time for now
+     * @param {string} option Specifies reorder option. Value can be ```Title | Year```.
+     * @returns Current reordering direction ```asc | desc```
+     */
     toggleReorderOption(option) {
         const { reorderConfig } = this
 
@@ -196,6 +259,10 @@ class MovieMania {
         return reorderConfig[option]
     }
 
+    /**
+     * @function
+     * Updates reorder buttons' icon according to reorder direction
+     */
     renderReorderElementsIcons() {
         document.querySelectorAll('.ReorderItems .ReorderItem')
             .forEach(item => {
@@ -207,6 +274,10 @@ class MovieMania {
             })
     }
 
+    /**
+     * @function
+     * Assigns click event listener to reorder buttons. This gives them the functinoality of being able to reorder search result
+     */
     handleReorderItemClick() {
         document.querySelectorAll('.ReorderItems .ReorderItem')
             .forEach(item =>
@@ -225,18 +296,26 @@ class MovieMania {
             )
     }
 
+    /**
+     * @function
+     * Initializes first level callbacks
+     */
     init() {
         this.handleFormSubmitSearch()
         this.handleReorderItemClick()
         this.renderReorderElementsIcons()
 
-        this.handleSearch('spider')
+        // this.handleSearch('spider')
 
         const Modal = document.querySelector('.Modal-Backdrop')
         Modal.addEventListener('click', () => this.closeModal())
     }
 }
 
+/**
+ * @event
+ * Instantiates and initializes ```MovieMania()``` class after DOM has fully loaded
+ */
 document.addEventListener('DOMContentLoaded', function () {
     const movieMania = new MovieMania()
     movieMania.init()

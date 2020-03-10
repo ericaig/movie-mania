@@ -3,7 +3,7 @@ describe('searchMovies', () => {
         const query = 'spider'
         const movies = await searchMovies(query)
         expect(movies).toBeInstanceOf(Array)
-        
+
         movies.forEach(({ Title, Poster, Year, imdbID, Type }) => {
             expect(typeof Title).toBe('string')
             expect(typeof Poster).toBe('string')
@@ -19,14 +19,6 @@ describe('searchMovies', () => {
         expect(movies).toBeInstanceOf(Array)
         expect(movies.length).toBe(0)
     })
-
-    // it('should fail if type parametre is invalid', async () => {
-    //     const query = 'spider'
-    //     const type = ''
-    //     const movies = await searchMovies(query)
-    //     expect(movies).toBeInstanceOf(Array)
-    //     expect(movies.length).toBe(0)
-    // })
 
     it('should fail on non string query parametre', async () => {
         const name = 'search query'
